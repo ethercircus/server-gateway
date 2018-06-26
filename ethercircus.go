@@ -2,6 +2,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -26,13 +28,27 @@ func main() {
 	fmt.Println("User name: ", ret.UserName)
 	var blockNumber uint64 = 2530622
 	//s := []uint32{}
+
 	ch := make(chan *contracts.UserContentRegisterStoreData)
 	opts := &bind.WatchOpts{}
 	opts.Start = &blockNumber
-	_, err = userContentRegister.WatchStoreData(opts, ch)
+	storeDataSub, err := userContentRegister.WatchStoreData(opts, ch)
 	if err != nil {
 		log.Fatalf("Failed WatchStoreData: %v", err)
 	}
-	var newEvent *contracts.UserContentRegisterStoreData = <-ch
-	fmt.Println(newEvent.Data)
+
+	go func() {
+		defer storeDataSub.Unsubscribe()
+
+		for {
+			var newEvent *contracts.UserContentRegisterStoreData = <-ch
+			fmt.Println(newEvent.Data)
+		}
+	}()
+
+	//Monitor for interrupts and terminate cleanly
+	sigc := make(chan os.Signal, 1)
+	signal.Notify(sigc, os.Interrupt)
+	defer signal.Stop(sigc)
+	<-sigc
 }
