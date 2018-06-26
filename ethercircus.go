@@ -14,16 +14,11 @@ func main() {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
 	// Instantiate the contract and display its name
-	userContentRegister, err := NewUserContentRegister(common.HexToAddress("0x8979BDf9A55C8B5a8ce4b30c4D80D678b8a91800"), conn)
+	userContentRegister, err := contracts.NewUserContentRegister(common.HexToAddress("0x8979BDf9A55C8B5a8ce4b30c4D80D678b8a91800"), conn)
 	if err != nil {
 		log.Fatalf("Failed to instantiate the UserContentRegister contract: %v", err)
 	}
-	ret := new(struct {
-		UserName        string
-		ProfileMetaData string
-		NumContent      *big.Int
-	})
-	ret, err = userContentRegister.UserIndex(common.HexToAddress("0xe2eb4e5418e8d1f90b474318b83034a15fae409f"))
+	ret, err := userContentRegister.UserIndex(nil, common.HexToAddress("0xe2eb4e5418e8d1f90b474318b83034a15fae409f"))
 	if err != nil {
 		log.Fatalf("Failed to retrieve username: %v", err)
 	}
