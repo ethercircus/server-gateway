@@ -2,8 +2,10 @@ package main
 import (
 	"fmt"
 	"log"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/ethercircus/server-gateway/contracts"
 )
 func main() {
 	// Create an IPC based RPC connection to a remote node
