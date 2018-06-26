@@ -6,6 +6,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethercircus/server-gateway/contracts"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 )
 func main() {
 	// Create an IPC based RPC connection to a remote node
@@ -23,4 +24,15 @@ func main() {
 		log.Fatalf("Failed to retrieve username: %v", err)
 	}
 	fmt.Println("User name: ", ret.UserName)
+	var blockNumber uint64 = 2530622
+	//s := []uint32{}
+	ch := make(chan *contracts.UserContentRegisterStoreData)
+	opts := &bind.WatchOpts{}
+	opts.Start = &blockNumber
+	_, err = userContentRegister.WatchStoreData(opts, ch)
+	if err != nil {
+		log.Fatalf("Failed WatchStoreData: %v", err)
+	}
+	var newEvent *contracts.UserContentRegisterStoreData = <-ch
+	fmt.Println(newEvent.Data)
 }
