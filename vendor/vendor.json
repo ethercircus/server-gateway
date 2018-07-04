@@ -30,6 +30,12 @@
 			"revisionTime": "2018-01-09T09:49:37Z"
 		},
 		{
+			"checksumSHA1": "A8Se5i4TlnvMQVMYMJ4c/uG3qME=",
+			"path": "github.com/ethercircus/solidity-contracts/contracts/gocontracts",
+			"revision": "9fc369ad7c8d3797fbee586a9dfe7682a57864d1",
+			"revisionTime": "2018-07-03T18:58:40Z"
+		},
+		{
 			"checksumSHA1": "BW6tQ96mhiCpOfKZAdDCwTFA5As=",
 			"path": "github.com/ethereum/go-ethereum",
 			"revision": "6a54e5bfe3c866a5ebffd9453d7cad0ce767cde2",
@@ -2123,5 +2129,5 @@
 			"revision": ""
 		}
 	],
-	"rootPath": "github.com/karalabe/akasha"
+	"rootPath": "server-gateway"
 }
